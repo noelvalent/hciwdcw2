@@ -1,0 +1,10 @@
+[
+  {
+    "model": "management.backup",
+    "pk": 1,
+    "fields": {
+      "created_by": "2022-04-23T12:49:23.904Z",
+      "backup_file": "/Users/noel/git/hciwdcw2/media/backup/Sat Apr 23 12:49:23 UTC 2022.tar"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Causeway Point - Coming Soon</title>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="others">
+            <h2>We are preparing<hr>amazing things!</h2>
+            <button>
+                <a href="{% url 'shop:index' %}">Back to home</a>
+            </button>
+        </div>
+    </div>
+{% endblock %}

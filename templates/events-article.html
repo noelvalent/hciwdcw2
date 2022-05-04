@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Causeway Point - {{ deal.title }}</title>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="events_article-title">
+            <div class="events-breadcrumb">
+                <span>EVENTS</span>
+            </div>
+            <h1>{{ deal.title }}</h1><br><br>
+            <h4>{{ deal.event.get_duration_str }}</h4><br>
+            <h5><a href="{% url 'shop:store-detail' deal.related_store_id.pk %}">{{ deal.related_store_id.name }}</a></h5>
+        </div>
+        <div class="events_article-img">
+            <img src="{{ deal.poster.url }}" alt="poster image" />
+        </div>
+        <div class="posts_article-wrapper">
+            {{ deal.content }}
+            <h4>{{ deal.get_format_datetime }}</h4>
+{#            <h5>Categort</h5>#}
+            <button>
+                <a onclick="history.back()">Go back</a>
+            </button>
+        </div>
+    </div>
+{% endblock %}

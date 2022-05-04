@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Causeway Point - Stores</title>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Stores</h1>
+        <br><hr><br>
+        <div class="stores-container">
+            {% if stores %}
+                {% for store in stores %}
+                    <article id="" class="stores-listing">
+                        <a class="stores-title" href="{% url 'shop:store-detail' store.pk %}">{{ store.name }}</a>
+                        <div class="stores-image">
+                            <img src="{{ store.logo.url }}" alt="{{ store.name }} - logo" />
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <h2>There is no stores</h2>
+            {% endif %}
+        </div>
+        <br>
+        <div class="posts-opt">
+            <div class="posts-opt-left">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if 'alpha' in request.GET %}&alpha={{ request.GET.alpha }}{% endif %}{% if 'category' in request.GET %}&category={{ request.GET.category }}{% endif %}{% if 'q' in request.GET %}&q={{ request.GET.q }}{% endif %}" class="posts-opt-prev">Prev</a>
+                {% else %}
+                    <a href="javascript:void(0)" class="posts-opt-prev" >Prev</a>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                    <a href="?page={{ i }}{% if 'alpha' in request.GET %}&alpha={{ request.GET.alpha }}{% endif %}{% if 'category' in request.GET %}&category={{ request.GET.category }}{% endif %}{% if 'q' in request.GET %}&q={{ request.GET.q }}{% endif %}" class="posts-opt-num">{{ i }}</a>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if 'alpha' in request.GET %}&alpha={{ request.GET.alpha }}{% endif %}{% if 'category' in request.GET %}&category={{ request.GET.category }}{% endif %}{% if 'q' in request.GET %}&q={{ request.GET.q }}{% endif %}" class="posts-opt-next">Next</a>
+                {% else %}
+                    <a href="javascript:void(0)" class="posts-opt-next">Next</a>
+                {% endif %}
+            </div>
+            <div class="posts-opt-center"><br></div>
+            <div class="posts-opt-right">
+                <div class="stores-select">
+                    <select id="store-category" onchange="filterByCategory()">
+                        <option value="---" {% if 'category' not in request.GET %}selected{% endif %}>Category</option>
+                        <option value="BNK" {% if 'category' in request.GET %}{% if request.GET.category == 'BNK' %}selected{% endif %}{% endif %}>Bank</option>
+                        <option value="BUT" {% if 'category' in request.GET %}{% if request.GET.category == 'BUT' %}selected{% endif %}{% endif %}>Beauty</option>>
+                        <option value="ECT" {% if 'category' in request.GET %}{% if request.GET.category == 'ECT' %}selected{% endif %}{% endif %}>Electrical</option>>
+                        <option value="ENT" {% if 'category' in request.GET %}{% if request.GET.category == 'ENT' %}selected{% endif %}{% endif %}>Entertainment</option>>
+                        <option value="FSH" {% if 'category' in request.GET %}{% if request.GET.category == 'FSH' %}selected{% endif %}{% endif %}>Fashion</option>>
+                        <option value="FOD" {% if 'category' in request.GET %}{% if request.GET.category == 'FOD' %}selected{% endif %}{% endif %}>Food</option>>
+                        <option value="FUN" {% if 'category' in request.GET %}{% if request.GET.category == 'FUN' %}selected{% endif %}{% endif %}>Furniture</option>>
+                        <option value="JEW" {% if 'category' in request.GET %}{% if request.GET.category == 'JEW' %}selected{% endif %}{% endif %}>Jewellery</option>>
+                        <option value="SVC" {% if 'category' in request.GET %}{% if request.GET.category == 'SVC' %}selected{% endif %}{% endif %}>Services</option>>
+                        <option value="SPT" {% if 'category' in request.GET %}{% if request.GET.category == 'SPT' %}selected{% endif %}{% endif %}>Sport</option>>
+                        <option value="TOY" {% if 'category' in request.GET %}{% if request.GET.category == 'TOY' %}selected{% endif %}{% endif %}>Toy</option>>
+                    </select>
+                    <select id="store-alpha" onchange="filterByAlpha()">
+                        <option value="1" {% if 'alpha' not in request.GET %}selected{% endif %}>A-Z</option>
+                        <option value="a" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'a' %}selected{% endif %}{% endif %}>A</option>
+                        <option value="b" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'b' %}selected{% endif %}{% endif %}>B</option>
+                        <option value="c" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'c' %}selected{% endif %}{% endif %}>C</option>
+                        <option value="d" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'd' %}selected{% endif %}{% endif %}>D</option>
+                        <option value="e" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'e' %}selected{% endif %}{% endif %}>E</option>
+                        <option value="f" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'f' %}selected{% endif %}{% endif %}>F</option>
+                        <option value="g" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'g' %}selected{% endif %}{% endif %}>G</option>
+                        <option value="h" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'h' %}selected{% endif %}{% endif %}>H</option>
+                        <option value="i" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'i' %}selected{% endif %}{% endif %}>I</option>
+                        <option value="j" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'j' %}selected{% endif %}{% endif %}>J</option>
+                        <option value="k" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'k' %}selected{% endif %}{% endif %}>K</option>
+                        <option value="l" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'l' %}selected{% endif %}{% endif %}>L</option>
+                        <option value="m" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'm' %}selected{% endif %}{% endif %}>M</option>
+                        <option value="n" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'n' %}selected{% endif %}{% endif %}>N</option>
+                        <option value="o" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'o' %}selected{% endif %}{% endif %}>O</option>
+                        <option value="p" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'p' %}selected{% endif %}{% endif %}>P</option>
+                        <option value="q" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'q' %}selected{% endif %}{% endif %}>Q</option>
+                        <option value="r" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'r' %}selected{% endif %}{% endif %}>R</option>
+                        <option value="s" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 's' %}selected{% endif %}{% endif %}>S</option>
+                        <option value="t" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 't' %}selected{% endif %}{% endif %}>T</option>
+                        <option value="u" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'u' %}selected{% endif %}{% endif %}>U</option>
+                        <option value="v" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'v' %}selected{% endif %}{% endif %}>V</option>
+                        <option value="w" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'w' %}selected{% endif %}{% endif %}>W</option>
+                        <option value="x" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'x' %}selected{% endif %}{% endif %}>X</option>
+                        <option value="y" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'y' %}selected{% endif %}{% endif %}>Y</option>
+                        <option value="z" {% if 'alpha' in request.GET %}{% if request.GET.alpha == 'z' %}selected{% endif %}{% endif %}>Z</option>
+                        <option value="0" {% if 'alpha' in request.GET %}{% if request.GET.alpha == '0' %}selected{% endif %}{% endif %}>#</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <div class="search-wrapper">
+                <div class="input-holder">
+                    <input type="text" id="store-search-input" class="search-input" placeholder="Type to search" />
+                    <button class="search-icon" onclick="searchToggle(this, event);"><span></span></button>
+                </div>
+                <span class="close" onclick="searchToggle(this, event);"></span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/store.js' %}"></script>
+{% endblock %}

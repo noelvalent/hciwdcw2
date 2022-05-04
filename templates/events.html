@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Causeway Point - Events</title>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Events</h1>
+        <br><hr><br>
+        <div class="posts-container">
+            {% if deals %}
+                {% for deal in deals %}
+                    <article id="" class="events-listing">
+                        <h4>{{ deal.related_store_id.name }}</h4>
+                        <a class="events-read-more" href="{% url 'shop:deal-detail' deal.pk %}">Read more</a>
+                        <div class="posts-image">
+                            <img src="{{ deal.poster.url }}" alt="event poster" />
+                        </div>
+                        <div class="events-contents">
+                            <h3>{{ deal.event.get_duration_str }}</h3>
+                            <h2>{{ deal.title }}</h2>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <br>
+        <div class="posts-opt">
+            <div class="posts-opt-left">
+                <a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}javascript:void(0){% endif %}" class="posts-opt-prev">Prev</a>
+                {% for i in paginator.page_range %}
+                    <a href="?page={{ i }}" class="posts-opt-num">{{ i }}</a>
+                {% endfor %}
+                <a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}javascript:void(0){% endif %}" class="posts-opt-next">Next</a>
+            </div>
+            <div class="posts-opt-center"><br></div>
+            <div class="posts-opt-right">
+                <select>
+                    <option>All</option>
+                    <option>Ongoing</option>
+                    <option>Archived</option>
+                </select>
+            </div>
+        </div>
+    </div>
+{% endblock %}

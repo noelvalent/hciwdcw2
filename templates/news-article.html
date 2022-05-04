@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Causeway Point - {{ article.title }}</title>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="news_article-img">
+            <img src="{{ article.featured_image.url }}" alt="article featured image" />
+        </div>
+        <div class="posts_article-wrapper">
+            <div class="news-breadcrumb">
+                <span>NEWS</span>
+            </div>
+            <div>
+                <h1>{{ article.title }}</h1>
+            </div>
+            {{ article.content | safe }}
+            <h4>{{ article.get_format_datetime }}</h4>
+            <h5>{{ article.get_article_type_text }}</h5>
+            <button>
+                <a onclick="history.back()">Go back</a>
+            </button>
+        </div>
+    </div>
+{% endblock %}

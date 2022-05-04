@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Causeway Point - Newsroom</title>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Newsroom</h1>
+        <br><hr><br>
+        <div class="posts-container">
+            {% if articles %}
+                {% for article in articles %}
+                    <article id="" class="news-listing">
+                        <h4>{{ article.get_article_type_text }}</h4>
+                        <a class="news-read-more" href="{% url 'shop:news-detail' article.pk %}">Read more</a>
+                        <div class="posts-image">
+                            <img src="{{ article.featured_image.url }}" alt="article featured image" />
+                        </div>
+                        <div class="news-contents">
+                            <h3>{{ article.get_format_datetime }}</h3>
+                            <h2>{{ article.title }}</h2>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <h2>There is no Articles</h2>
+            {% endif %}
+        </div>
+        <br>
+        <div class="posts-opt">
+            <div class="posts-opt-left">
+                <a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% if 'category' in request.GET %}&category={{ request.GET.category }}{% endif %}{% else %}javascript:void(0){% endif %}" class="posts-opt-prev">Prev</a>
+                {% for i in paginator.page_range %}
+                    <a href="?page={{ i }}{% if 'category' in request.GET %}&category={{ request.GET.category }}{% endif %}" class="posts-opt-num">{{ i }}</a>
+                {% endfor %}
+                <a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% if 'category' in request.GET %}&category={{ request.GET.category }}{% endif %}{% else %}javascript:void(0){% endif %}" class="posts-opt-next">Next</a>
+            </div>
+            <div class="posts-opt-center"><br></div>
+            <div class="posts-opt-right">
+                <select id="news-category" onchange="filterByCategory()">
+                    <option value="-" {% if 'category' not in request.GET %}selected{% endif %}>All</option>
+                    <option value="A" {% if 'category' in request.GET%}{% if request.GET.category == 'A' %}selected{% endif %}{% endif %}>Announce</option>
+                    <option value="D" {% if 'category' in request.GET%}{% if request.GET.category == 'D' %}selected{% endif %}{% endif %}>Delish</option>
+                    <option value="L" {% if 'category' in request.GET%}{% if request.GET.category == 'L' %}selected{% endif %}{% endif %}>Life</option>
+                    <option value="S" {% if 'category' in request.GET%}{% if request.GET.category == 'S' %}selected{% endif %}{% endif %}>Style</option>
+                </select>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/news.js' %}"></script>
+{% endblock %}
